@@ -1,0 +1,1 @@
+import{_ as e}from"../../chunks/_plugin-vue_export-helper-DlAUqK2U.js";import{u as r,a_ as t,aM as n}from"../../chunks/vendor-vue-DzUbJ0Ha.js";const p={name:"App"};function s(a,c,_,m,f,i){const o=t("router-view");return n(),r(o)}const l=e(p,[["render",s]]);export{l as default};

@@ -1,0 +1,1 @@
+class i{constructor(){this.events={}}on(s,t){this.events[s]||(this.events[s]=[]),this.events[s].push(t)}off(s,t){if(this.events[s])if(t){const e=this.events[s].indexOf(t);e>-1&&this.events[s].splice(e,1)}else delete this.events[s]}emit(s,...t){this.events[s]&&this.events[s].forEach(e=>{e(...t)})}}const h=new i;export{h as default};

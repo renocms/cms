@@ -1,0 +1,1 @@
+function t(e,r){const n=r.replace(/^\//u,"").replace(/\.(vue|js)$/u,".js");return`/vendor/${e}/build/${n}`}function o(e){return t("reno/cms",e)}function u(e,r){const n=r.replace(/^\//u,"");return`/vendor/${e}/${n}`}function l(e){return u("reno/cms",e)}export{l as getCmsAssetUrl,o as getCmsBuildModuleUrl,u as getPackageAssetUrl,t as getPackageBuildModuleUrl};
