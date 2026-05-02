@@ -5,8 +5,10 @@ namespace Reno\Cms\Services\Users;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Reno\Cms\Events\PermissionsRegistering;
+use Reno\Cms\Helpers\TablePrefixHelper;
 use Reno\Cms\Interfaces\Services\PermissionServiceInterface;
 use Reno\Cms\Models\Permission;
 
@@ -32,10 +34,15 @@ class PermissionService implements PermissionServiceInterface
     {
         $this->syncRegisteredPermissions();
 
-        return $user->roles()
-            ->whereHas('permissions', function ($query) use ($permissionSlug) {
-                $query->where('slug', $permissionSlug);
-            })
+        $pivot = TablePrefixHelper::table('role_permission');
+        $roles = TablePrefixHelper::table('user_role');
+        $permissions = Permission::getTableName();
+
+        return DB::table($roles)
+            ->join($pivot, "$pivot.role_id", '=', "$roles.role_id")
+            ->join($permissions, "$permissions.id", '=', "$pivot.permission_id")
+            ->where("$roles.user_id", (int) $user->getKey())
+            ->where("$permissions.slug", $permissionSlug)
             ->exists();
     }
 

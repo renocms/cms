@@ -332,12 +332,6 @@ class InstallCms extends Command
 
     private function attachRoleToUser(Model $user, Role $role): void
     {
-        if (method_exists($user, 'roles')) {
-            $user->roles()->syncWithoutDetaching([$role->id]);
-
-            return;
-        }
-
         DB::table(TablePrefixHelper::table('user_role'))
             ->updateOrInsert([
                 'user_id' => (int) $user->getKey(),
