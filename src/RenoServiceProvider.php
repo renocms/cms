@@ -80,6 +80,7 @@ class RenoServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \Reno\Cms\Console\Commands\GenerateTranslations::class,
+                \Reno\Cms\Console\Commands\InstallCms::class,
                 \Reno\Cms\Console\Commands\ReindexSearchData::class,
             ]);
         }

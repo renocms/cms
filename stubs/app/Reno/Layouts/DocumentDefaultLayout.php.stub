@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Reno\Layouts;
+
+use Reno\Cms\FormElements\Tab;
+use Reno\Cms\Fields\RichContent;
+use Reno\Cms\Fields\Text;
+use Reno\Cms\Interfaces\Layouts\ResourceLayoutInterface;
+use Reno\Cms\Layouts\BaseLayout;
+
+class DocumentDefaultLayout extends BaseLayout implements ResourceLayoutInterface
+{
+    public function getName(): string
+    {
+        return __('cms::cms.install_default_layout_name');
+    }
+
+    public function getSchema(): array
+    {
+        return [
+            Tab::make(__('cms::cms.install_default_layout_main_tab'))->schema([
+                Text::make('title')
+                    ->label(__('cms::cms.install_default_layout_title_label'))
+                    ->required()
+                    ->maxLength(255),
+                RichContent::make('content')
+                    ->label(__('cms::cms.install_default_layout_content_label')),
+            ]),
+        ];
+    }
+
+    public function getViewName(): ?string
+    {
+        return 'web.pages.default';
+    }
+}

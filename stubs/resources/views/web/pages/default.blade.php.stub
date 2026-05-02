@@ -1,0 +1,22 @@
+<?php
+/** @var \Reno\Cms\Models\Resource $resource */
+?>
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ $resource->title ?: config('app.name') }}</title>
+</head>
+<body>
+    <main>
+        <h1>{{ $resource->title }}</h1>
+
+        @if (!empty(trim((string) $resource->content)))
+            <div class="user-content">
+                {!! $resource->content !!}
+            </div>
+        @endif
+    </main>
+</body>
+</html>

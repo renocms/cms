@@ -3,7 +3,7 @@
 return array_merge(
     [
         'admin_prefix' => env('CMS_ADMIN_PREFIX', 'admin'),
-        'table_prefix' => env('CMS_TABLE_PREFIX', 'cms_'),
+        'table_prefix' => env('CMS_TABLE_PREFIX'),
         'middleware' => ['web', 'auth'],
         'admin_locale' => env('CMS_ADMIN_LOCALE', env('CMS_DEFAULT_LOCALE', 'ru')),
         'default_locale' => env('CMS_DEFAULT_LOCALE', 'ru'),
