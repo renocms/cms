@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Reno\Contexts;
+
+use Illuminate\Http\Request;
+use Reno\Cms\Interfaces\Contexts\ContextInterface;
+
+class MainContext implements ContextInterface
+{
+    public function getKey(): string
+    {
+        return 'main';
+    }
+
+    public function getLocale(): string
+    {
+        return config('cms.default_locale', config('app.locale', 'ru'));
+    }
+
+    public function modifyRequest(Request $request): void
+    {
+    }
+
+    public function getLabel(): string
+    {
+        return __('cms::cms.install_main_context_label');
+    }
+}

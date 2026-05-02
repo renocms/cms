@@ -5,10 +5,12 @@ namespace Reno\Cms\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as AuthenticatableUser;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use Reno\Cms\Helpers\TablePrefixHelper;
 use Reno\Cms\Models\Permission;
 use Reno\Cms\Models\Role;
 
@@ -61,8 +63,17 @@ class InstallCms extends Command
     {
         $this->info('Starting Reno CMS installation...');
 
-        $tablePrefix = $this->resolveTablePrefix();
-        $adminPrefix = $this->resolveAdminPrefix();
+        $existingTablePrefix = trim((string) config('cms.table_prefix'));
+        $isAlreadyInstalled = $this->isAlreadyInstalled($existingTablePrefix);
+
+        if ($isAlreadyInstalled) {
+            $tablePrefix = $existingTablePrefix;
+            $adminPrefix = $this->resolveExistingAdminPrefix();
+            $this->line('Detected existing CMS installation. Reusing configured prefixes.');
+        } else {
+            $tablePrefix = $this->resolveTablePrefix();
+            $adminPrefix = $this->resolveAdminPrefix();
+        }
 
         $this->persistEnvironmentValue('CMS_TABLE_PREFIX', $tablePrefix);
         $this->persistEnvironmentValue('CMS_ADMIN_PREFIX', $adminPrefix);
@@ -74,10 +85,14 @@ class InstallCms extends Command
         $this->line("CMS_TABLE_PREFIX: {$tablePrefix}");
         $this->line("CMS_ADMIN_PREFIX: {$adminPrefix}");
 
-        if ($this->call('migrate', ['--force' => true]) !== self::SUCCESS) {
-            $this->error('Migrations failed.');
+        if ($isAlreadyInstalled) {
+            $this->line('Skipping migrations: resources table already exists for configured table prefix.');
+        } else {
+            if ($this->call('migrate', ['--force' => true]) !== self::SUCCESS) {
+                $this->error('Migrations failed.');
 
-            return self::FAILURE;
+                return self::FAILURE;
+            }
         }
 
         if (!$this->areCmsTablesAvailable()) {
@@ -107,8 +122,13 @@ class InstallCms extends Command
             return self::FAILURE;
         }
 
+        $this->generateMainContextStub();
         $this->generateDefaultLayoutStub();
         $this->generateDefaultViewStub();
+
+        if (!$this->seedInitialCmsData()) {
+            return self::FAILURE;
+        }
 
         $this->info(sprintf('Core permissions synced: %d', $permissions));
         $this->info("Role '{$role->slug}' is synchronized with all available permissions.");
@@ -159,6 +179,26 @@ class InstallCms extends Command
     private function generateAdminPrefix(): string
     {
         return 'admin-' . Str::lower(Str::random(4));
+    }
+
+    private function isAlreadyInstalled(string $existingTablePrefix): bool
+    {
+        if ($existingTablePrefix === '') {
+            return false;
+        }
+
+        return Schema::hasTable($existingTablePrefix . 'resources');
+    }
+
+    private function resolveExistingAdminPrefix(): string
+    {
+        $configuredPrefix = trim((string) config('cms.admin_prefix'));
+
+        if ($configuredPrefix !== '') {
+            return $configuredPrefix;
+        }
+
+        return $this->generateAdminPrefix();
     }
 
     private function persistEnvironmentValue(string $key, string $value): void
@@ -233,7 +273,7 @@ class InstallCms extends Command
 
     private function ensureSuperAdminUser(Role $role): bool
     {
-        if ($role->users()->exists()) {
+        if ($this->superAdminUserExists($role)) {
             $this->line('Super-admin user already exists. Skipping user creation.');
 
             return true;
@@ -270,7 +310,7 @@ class InstallCms extends Command
             $wasCreated = true;
         }
 
-        $user->roles()->syncWithoutDetaching([$role->id]);
+        $this->attachRoleToUser($user, $role);
 
         if ($wasCreated) {
             $this->info('Super-admin user created.');
@@ -281,6 +321,28 @@ class InstallCms extends Command
         }
 
         return true;
+    }
+
+    private function superAdminUserExists(Role $role): bool
+    {
+        return DB::table(TablePrefixHelper::table('user_role'))
+            ->where('role_id', $role->id)
+            ->exists();
+    }
+
+    private function attachRoleToUser(Model $user, Role $role): void
+    {
+        if (method_exists($user, 'roles')) {
+            $user->roles()->syncWithoutDetaching([$role->id]);
+
+            return;
+        }
+
+        DB::table(TablePrefixHelper::table('user_role'))
+            ->updateOrInsert([
+                'user_id' => (int) $user->getKey(),
+                'role_id' => $role->id,
+            ]);
     }
 
     /**
@@ -313,6 +375,22 @@ class InstallCms extends Command
         $this->line("Created layout: {$target}");
     }
 
+    private function generateMainContextStub(): void
+    {
+        $target = base_path('app/Reno/Contexts/MainContext.php');
+        $stub = $this->getStubPath('app/Reno/Contexts/MainContext.php.stub');
+
+        if (File::exists($target)) {
+            $this->line("Context already exists: {$target}");
+
+            return;
+        }
+
+        $this->ensureDirectoryExists(dirname($target));
+        File::put($target, File::get($stub));
+        $this->line("Created context: {$target}");
+    }
+
     private function generateDefaultViewStub(): void
     {
         $target = base_path('resources/views/web/pages/default.blade.php');
@@ -327,6 +405,22 @@ class InstallCms extends Command
         $this->ensureDirectoryExists(dirname($target));
         File::put($target, File::get($stub));
         $this->line("Created view: {$target}");
+    }
+
+    private function seedInitialCmsData(): bool
+    {
+        $result = $this->call('db:seed', [
+            '--class' => \Reno\Cms\Database\Seeders\InstallCmsSeeder::class,
+            '--force' => true,
+        ]);
+
+        if ($result !== self::SUCCESS) {
+            $this->error('Initial CMS data seeding failed.');
+
+            return false;
+        }
+
+        return true;
     }
 
     private function ensureDirectoryExists(string $directory): void
