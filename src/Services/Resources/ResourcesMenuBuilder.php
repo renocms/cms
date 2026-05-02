@@ -22,13 +22,16 @@ class ResourcesMenuBuilder implements ResourcesMenuBuilderInterface
     {
         $resources = $this->resourcesTreeBuilder->getTree($params);
 
-        $activeIds = array_fill_keys($this->resource->getParentIds(), true);
-        $activeIds[$this->resource->id] = true;
+        $activeIds = [];
+        if ($this->resource->exists) {
+            $activeIds = array_fill_keys($this->resource->getParentIds(), true);
+            $activeIds[$this->resource->id] = true;
+        }
 
-        return $this->wrapResources($resources, $this->resource->id, $activeIds);
+        return $this->wrapResources($resources, $this->resource->exists ? $this->resource->id : null, $activeIds);
     }
 
-    private function wrapResources(Collection $resources, int $currentId, array $activeIds): Collection
+    private function wrapResources(Collection $resources, ?int $currentId, array $activeIds): Collection
     {
         return $resources->map(function (Resource $resource) use ($currentId, $activeIds) {
             return new MenuItemContainer(

@@ -1,17 +1,20 @@
 <?php
 
-namespace Reno\Cms\Events;
+namespace Reno\Cms\Events\Resources;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Reno\Cms\Models\Resource;
 
-class ResourceCreated
+class ResourceMoving
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     public function __construct(
         public Resource $resource,
+        public ?int $targetParentId,
+        public int $targetSortOrder,
     )
     {
     }

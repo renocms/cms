@@ -51,6 +51,7 @@ class RenoServiceProvider extends ServiceProvider
             __DIR__ . '/../config/cms.php' => config_path('cms.php'),
             __DIR__ . '/../config/cms-bindings.php' => config_path('cms-bindings.php'),
             __DIR__ . '/../config/cms-listeners.php' => config_path('cms-listeners.php'),
+            __DIR__ . '/../config/cms-search.php' => config_path('cms-search.php'),
             __DIR__ . '/../config/cms-front.php' => config_path('cms-front.php'),
         ], 'cms-config');
 
@@ -79,6 +80,7 @@ class RenoServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \Reno\Cms\Console\Commands\GenerateTranslations::class,
+                \Reno\Cms\Console\Commands\ReindexSearchData::class,
             ]);
         }
 

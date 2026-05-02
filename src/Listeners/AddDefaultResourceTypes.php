@@ -2,7 +2,7 @@
 
 namespace Reno\Cms\Listeners;
 
-use Reno\Cms\Events\ResourceTypesRegistering;
+use Reno\Cms\Events\Resources\ResourceTypesRegistering;
 use Reno\Cms\Resources\DocumentResourceType;
 
 class AddDefaultResourceTypes

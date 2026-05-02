@@ -9,6 +9,8 @@ abstract class AbstractField implements FieldInterface
 {
     use Concerns\HasConfiguration;
 
+    protected ?string $category = null;
+
     public function __construct(
         protected string $key,
         protected FieldTypeInterface $fieldType,
@@ -19,6 +21,18 @@ abstract class AbstractField implements FieldInterface
     public function getKey(): string
     {
         return $this->key;
+    }
+
+    public function category(string $category): static
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
     }
 
     public function getName(): string

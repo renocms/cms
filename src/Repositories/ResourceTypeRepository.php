@@ -6,7 +6,7 @@ use Reno\Cms\Enums\Lock;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Cache;
-use Reno\Cms\Events\ResourceTypesRegistering;
+use Reno\Cms\Events\Resources\ResourceTypesRegistering;
 use Reno\Cms\Containers\ResourceTypeContainer;
 use Reno\Cms\Interfaces\Repositories\ResourceTypeRepositoryInterface;
 use Reno\Cms\Interfaces\Resources\ResourceTypeInterface;
@@ -93,7 +93,7 @@ class ResourceTypeRepository implements ResourceTypeRepositoryInterface
             return self::$rawResourceTypesCache;
         }
 
-        $lock = Cache::lock(Lock::ResourceTypes->value);
+        $lock = Cache::lock(Lock::ResourceTypes->value, 30);
 
         if (!$lock->block(5)) {
             throw new \RuntimeException('Resource types are locked');

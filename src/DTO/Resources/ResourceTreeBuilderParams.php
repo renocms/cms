@@ -14,6 +14,7 @@ class ResourceTreeBuilderParams
     public function __construct(
         public ?int $contextId = null,
         public ?int $parentId = null,
+        public ?string $searchQuery = null,
         public int $depth = 4,
         public bool $onlyPublished = true,
         public bool $onlyForMenu = true,

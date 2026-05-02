@@ -5,8 +5,8 @@ return array_merge(
         'admin_prefix' => env('CMS_ADMIN_PREFIX', 'admin'),
         'table_prefix' => env('CMS_TABLE_PREFIX', 'cms_'),
         'middleware' => ['web', 'auth'],
-        'admin_locale' => env('CMS_ADMIN_LOCALE', env('CMS_DEFAULT_LOCALE', 'en')),
-        'default_locale' => env('CMS_DEFAULT_LOCALE', 'en'),
+        'admin_locale' => env('CMS_ADMIN_LOCALE', env('CMS_DEFAULT_LOCALE', 'ru')),
+        'default_locale' => env('CMS_DEFAULT_LOCALE', 'ru'),
         'available_locales' => ['en', 'ru'],
         'media' => [
             'disk' => env('CMS_MEDIA_DISK', 'public'),
@@ -29,5 +29,6 @@ return array_merge(
     ],
     require __DIR__ . '/cms-bindings.php',
     require __DIR__ . '/cms-listeners.php',
+    require __DIR__ . '/cms-search.php',
     require __DIR__ . '/cms-front.php'
 );

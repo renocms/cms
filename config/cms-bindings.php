@@ -15,6 +15,8 @@ return [
         \Reno\Cms\Interfaces\Services\ResourcesBreadcrumbsBuilderInterface::class => \Reno\Cms\Services\Resources\ResourcesBreadcrumbsBuilder::class,
         \Reno\Cms\Interfaces\Services\ResourcesMenuBuilderInterface::class => \Reno\Cms\Services\Resources\ResourcesMenuBuilder::class,
         \Reno\Cms\Interfaces\Services\ResourceResolverInterface::class => \Reno\Cms\Services\Resources\ResourceResolver::class,
+        \Reno\Cms\Interfaces\Services\ResourceSearchEngineInterface::class => \Reno\Cms\Services\Resources\Search\SearchEngineManager::class,
+        \Reno\Cms\Interfaces\Services\ResourceSearchIndexerInterface::class => \Reno\Cms\Services\Resources\Search\SearchIndexerManager::class,
     ],
     'singletons' => [
         \Reno\Cms\Interfaces\Services\PathCacheInterface::class => \Reno\Cms\Services\PathCacheService::class,

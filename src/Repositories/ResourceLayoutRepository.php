@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Cache;
 use Reno\Cms\Containers\FieldContainer;
 use Reno\Cms\Interfaces\Forms\FieldInterface;
-use Reno\Cms\Events\ResourceLayoutResolved;
-use Reno\Cms\Events\ResourceLayoutsRegistering;
+use Reno\Cms\Events\Resources\ResourceLayoutResolved;
+use Reno\Cms\Events\Resources\ResourceLayoutsRegistering;
 use Reno\Cms\Containers\ResourceLayoutContainer;
 use Reno\Cms\Interfaces\Forms\FormElementInterface;
 use Reno\Cms\Interfaces\Layouts\ResourceLayoutInterface;
@@ -115,7 +115,7 @@ class ResourceLayoutRepository implements ResourceLayoutRepositoryInterface
             return self::$rawLayoutsCache;
         }
 
-        $lock = Cache::lock(Lock::ResourceLayouts->value);
+        $lock = Cache::lock(Lock::ResourceLayouts->value, 30);
 
         if (!$lock->block(5)) {
             throw new \RuntimeException('Resource layouts is being locked');

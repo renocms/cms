@@ -5,6 +5,8 @@ namespace Reno\Cms\Services\Resources;
 use Reno\Cms\Containers\ContextContainer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\Builder as QueryBuilder;
+use Reno\Cms\DTO\Resources\ResourceSearchCriteria;
 use Reno\Cms\DTO\Resources\ResourceTreeBuilderParams;
 use Reno\Cms\DTO\Resources\Sort;
 use Reno\Cms\DTO\Resources\ValueFilter;
@@ -13,6 +15,7 @@ use Reno\Cms\Exceptions\CurrentContextNotResolvedException;
 use Reno\Cms\Exceptions\InvalidSortRuleException;
 use Reno\Cms\Exceptions\InvalidValueFilterException;
 use Reno\Cms\Interfaces\Repositories\ResourceLayoutRepositoryInterface;
+use Reno\Cms\Interfaces\Services\ResourceSearchEngineInterface;
 use Reno\Cms\Interfaces\Services\ResourcesTreeBuilderInterface;
 use Reno\Cms\Models\Resource;
 use Reno\Cms\Models\ResourceField;
@@ -23,6 +26,7 @@ class ResourcesTreeBuilder implements ResourcesTreeBuilderInterface
     public function __construct(
         private readonly ResourceLayoutRepositoryInterface $resourceLayoutRepository,
         private readonly ResourcesHydrator $resourcesHydrator,
+        private readonly ResourceSearchEngineInterface $resourceSearchEngine,
     )
     {
     }
@@ -43,6 +47,10 @@ class ResourcesTreeBuilder implements ResourcesTreeBuilderInterface
     {
         $contextId = $this->resolveContextId($params->contextId, $params->parentId);
         $depth = max(0, $params->depth);
+        $searchSubquery = $this->makeSearchSubquery(
+            $params,
+            $contextId,
+        );
 
         $parentIds = $params->parentId ? [$params->parentId] : [];
         $parentIdsForChildren = null;
@@ -66,13 +74,17 @@ class ResourcesTreeBuilder implements ResourcesTreeBuilderInterface
             return Collection::make();
         }
 
-        return $this->loadChildren($contextId, $parentIds, $params);
+        return $this->loadChildren($contextId, $parentIds, $params, $searchSubquery);
     }
 
     public function getPaginatedList(ResourceTreeBuilderParams $params, int $page = 1, int $perPage = 12, string $pageName = 'page'): LengthAwarePaginator
     {
         $contextId = $this->resolveContextId($params->contextId, $params->parentId);
         $depth = max(0, $params->depth);
+        $searchSubquery = $this->makeSearchSubquery(
+            $params,
+            $contextId,
+        );
 
         $parentIds = $params->parentId ? [$params->parentId] : [];
         $parentIdsForChildren = null;
@@ -92,7 +104,7 @@ class ResourcesTreeBuilder implements ResourcesTreeBuilderInterface
             $parentIds = array_merge($parentIds, $parentIdsForChildren);
         }
 
-        $paginator = $this->makeChildrenQuery($contextId, $parentIds, $params)
+        $paginator = $this->makeChildrenQuery($contextId, $parentIds, $params, $searchSubquery)
             ->paginate($perPage, pageName: $pageName, page: $page);
 
         $resources = Collection::make($paginator->getCollection());
@@ -187,14 +199,24 @@ class ResourcesTreeBuilder implements ResourcesTreeBuilderInterface
             $this->resourceLayoutRepository->findById($resource->resource_layout_id)->isCatalog();
     }
 
-    private function loadChildren(?int $contextId, array|int|null $parentIds, ResourceTreeBuilderParams $params): Collection
+    private function loadChildren(
+        ?int $contextId,
+        array|int|null $parentIds,
+        ResourceTreeBuilderParams $params,
+        ?QueryBuilder $searchSubquery = null,
+    ): Collection
     {
-        $resources = $this->makeChildrenQuery($contextId, $parentIds, $params)->get();
+        $resources = $this->makeChildrenQuery($contextId, $parentIds, $params, $searchSubquery)->get();
         $this->resourcesHydrator->hydrateResources($resources, $params->onlyFields);
         return $resources;
     }
 
-    protected function makeChildrenQuery(?int $contextId, array|int|null $parentIds, ResourceTreeBuilderParams $params): Builder
+    protected function makeChildrenQuery(
+        ?int $contextId,
+        array|int|null $parentIds,
+        ResourceTreeBuilderParams $params,
+        ?QueryBuilder $searchSubquery = null,
+    ): Builder
     {
         if (is_int($parentIds)) {
             $parentIds = [$parentIds];
@@ -208,8 +230,21 @@ class ResourcesTreeBuilder implements ResourcesTreeBuilderInterface
             $query->whereIn('parent_id', $parentIds);
         }
 
+        if ($searchSubquery !== null) {
+            $query
+                ->select(Resource::getTableName() . '.*')
+                ->joinSub($searchSubquery, 'search_hits', function ($join): void {
+                    $join->on('search_hits.resource_id', '=', Resource::getTableName() . '.id');
+                });
+        }
+
         $this->applyBaseConstraints($query, $contextId, $params);
-        $this->applySort($query, $params);
+
+        if ($searchSubquery !== null) {
+            $this->applySearchSort($query);
+        } else {
+            $this->applySort($query, $params);
+        }
 
         if ($params->limit) {
             $query->limit($params->limit);
@@ -323,6 +358,27 @@ class ResourcesTreeBuilder implements ResourcesTreeBuilderInterface
         }
 
         $this->addDefaultSort($query, $resourceTable);
+    }
+
+    private function applySearchSort(Builder $query): void
+    {
+        $query->orderByDesc('search_hits.score');
+        $this->addDefaultSort($query, Resource::getTableName());
+    }
+
+    private function makeSearchSubquery(ResourceTreeBuilderParams $params, ?int $contextId): ?QueryBuilder
+    {
+        $searchQuery = trim((string) $params->searchQuery);
+        if ($searchQuery === '') {
+            return null;
+        }
+
+        $criteria = new ResourceSearchCriteria(
+            searchQuery: $searchQuery,
+            contextId: $contextId,
+        );
+
+        return $this->resourceSearchEngine->makeSearchSubquery($criteria);
     }
 
     private function makeResourceValueSortSubquery(string $resourceTable, string $field): Builder

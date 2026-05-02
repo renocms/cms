@@ -94,7 +94,7 @@ class ContextsRepository implements ContextsRepositoryInterface
             return self::$rawContextsCache;
         }
 
-        $lock = Cache::lock(Lock::Contexts->value);
+        $lock = Cache::lock(Lock::Contexts->value, 30);
 
         if (!$lock->block(5)) {
             throw new \RuntimeException('Contexts are locked');

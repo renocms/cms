@@ -23,7 +23,7 @@
         >
             <span class="node-icon" @click.stop="handleToggleExpanded">
                 <Icon v-if="resource.is_home" name="house" :size="16" />
-                <Icon v-else-if="resource.layout && resource.layout.is_catalog" name="list" :size="16" />
+                <Icon v-else-if="resource.layout && resource.layout.is_catalog" name="layout-list" :size="16" />
                 <Icon v-else-if="!hasChildren && !resource.is_folder" name="file-text" :size="16" />
                 <Icon v-else-if="isExpanded && (hasLoadedChildren || childrenLoaded)" name="chevron-down" :size="16" />
                 <Icon v-else name="chevron-right" :size="16" />
@@ -527,26 +527,40 @@ export default {
             
             try {
                 await deleteResource(this.resource.id);
-                
-                // Проверяем, открыта ли страница редактирования удаляемого ресурса
-                if (this.$router && this.$route) {
-                    const adminPrefix = getAdminPrefix();
-                    const currentPath = this.$route.path;
-                    const resourceEditPath = `/${adminPrefix}/resources/${this.resource.id}`;
-                    
-                    // Если текущий путь соответствует редактированию удаляемого ресурса, делаем редирект на главную
-                    if (currentPath === resourceEditPath) {
-                        this.$router.push({ name: 'dashboard' });
-                    }
-                }
-                
+
                 // Эмитим событие для обновления дерева в родительском компоненте
-                this.$emit('resource-deleted', this.resource.id);
+                this.$emit('resource-deleted', {
+                    resourceId: this.resource.id,
+                    branchIds: this.collectLoadedBranchIds(this.resource),
+                });
             } catch (error) {
                 console.error('Error deleting resource:', error);
                 const message = error.response?.data?.message || this.$t('error_deleting_resource');
                 alert(message);
             }
+        },
+        collectLoadedBranchIds(resource) {
+            const branchIds = [];
+
+            const traverse = (node) => {
+                if (!node || typeof node.id !== 'number') {
+                    return;
+                }
+
+                branchIds.push(node.id);
+
+                if (!Array.isArray(node.children)) {
+                    return;
+                }
+
+                for (const child of node.children) {
+                    traverse(child);
+                }
+            };
+
+            traverse(resource);
+
+            return branchIds;
         },
     },
 };

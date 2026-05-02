@@ -2,7 +2,7 @@
 
 namespace Reno\Cms\Listeners;
 
-use Reno\Cms\Events\ResourceEditPluginsRegistering;
+use Reno\Cms\Events\Resources\ResourceEditPluginsRegistering;
 
 class AddDefaultResourceEditPlugins
 {

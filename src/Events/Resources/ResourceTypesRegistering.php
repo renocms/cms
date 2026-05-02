@@ -1,6 +1,6 @@
 <?php
 
-namespace Reno\Cms\Events;
+namespace Reno\Cms\Events\Resources;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -8,17 +8,17 @@ use Reno\Cms\Interfaces\Resources\ResourceTypeInterface;
 
 /**
  * Событие для регистрации типов ресурсов
- * 
+ *
  * Запускается из ResourceTypeRepository при получении всех типов ресурсов.
  * Подключаемые модули могут слушать это событие и регистрировать свои типы ресурсов.
- * 
+ *
  * Пример использования в ServiceProvider модуля:
- * 
+ *
  * ```php
  * use Illuminate\Support\Facades\Event;
- * use Reno\Cms\Events\ResourceTypesRegistering;
+ * use Reno\Cms\Events\Resources\ResourceTypesRegistering;
  * use App\Reno\ResourceTypes\ProductResourceType;
- * 
+ *
  * public function boot(): void
  * {
  *     Event::listen(ResourceTypesRegistering::class, function (ResourceTypesRegistering $event) {
@@ -29,7 +29,8 @@ use Reno\Cms\Interfaces\Resources\ResourceTypeInterface;
  */
 class ResourceTypesRegistering
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     /**
      * @var array<ResourceTypeInterface>

@@ -266,8 +266,57 @@ export default {
             }
         },
         handleResourceDeleted(resourceId) {
+            const payload = typeof resourceId === 'number'
+                ? { resourceId, branchIds: [resourceId] }
+                : resourceId;
+
+            this.redirectIfDeletedBranchIsOpen(payload);
+
             // Перезагружаем дерево после удаления ресурса
             this.loadResources();
+        },
+        redirectIfDeletedBranchIsOpen(payload) {
+            if (!payload || !Array.isArray(payload.branchIds) || !this.$router || !this.$route) {
+                return;
+            }
+
+            const deletedIds = payload.branchIds.filter((id) => typeof id === 'number');
+            if (deletedIds.length === 0) {
+                return;
+            }
+
+            if (!this.isCurrentViewAffectedByDeletedBranch(deletedIds)) {
+                return;
+            }
+
+            this.$router.push({ name: 'dashboard' });
+        },
+        isCurrentViewAffectedByDeletedBranch(deletedIds) {
+            if (this.$route?.name === 'resource-edit') {
+                const routeResourceId = Number.parseInt(String(this.$route.params.id ?? ''), 10);
+                if (!Number.isNaN(routeResourceId) && deletedIds.includes(routeResourceId)) {
+                    return true;
+                }
+
+                const catalogId = Number.parseInt(String(this.$route.query.catalog_id ?? ''), 10);
+                if (!Number.isNaN(catalogId) && deletedIds.includes(catalogId)) {
+                    return true;
+                }
+            }
+
+            if (this.$route?.name === 'resource-catalog') {
+                const catalogId = Number.parseInt(String(this.$route.params.catalogId ?? ''), 10);
+                if (!Number.isNaN(catalogId) && deletedIds.includes(catalogId)) {
+                    return true;
+                }
+
+                const resourceIdFromQuery = Number.parseInt(String(this.$route.query.resource_id ?? ''), 10);
+                if (!Number.isNaN(resourceIdFromQuery) && deletedIds.includes(resourceIdFromQuery)) {
+                    return true;
+                }
+            }
+
+            return false;
         },
         handleDragEnd() {
             // Сбрасываем состояние drag во всех узлах

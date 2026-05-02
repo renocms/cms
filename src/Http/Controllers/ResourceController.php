@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Event;
 use Reno\Cms\Exceptions\HomeResourceCannotBeDeletedException;
 use Reno\Cms\DTO\Resources\ResourceForCreate;
 use Reno\Cms\DTO\Resources\ResourceForEdit;
-use Reno\Cms\Events\ResourceEditPluginsRegistering;
+use Reno\Cms\Events\Resources\ResourceEditPluginsRegistering;
 use Reno\Cms\Http\Requests\Resources\ResourceCreateDraftRequest;
 use Reno\Cms\Http\Requests\Resources\ResourceIndexRequest;
 use Reno\Cms\Http\Requests\Resources\ResourceMoveRequest;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Reno\Cms\Events;
+namespace Reno\Cms\Events\Resources;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Reno\Cms\DTO\Resources\ResourceForCreate;

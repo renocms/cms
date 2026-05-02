@@ -136,4 +136,10 @@ class ResourceLayoutContainer
 
         return $this->fieldsList;
     }
+
+    public function getFieldsInCategory(string $category): Collection
+    {
+        return $this->getFields()
+            ->filter(fn (FieldContainer $fieldContainer) => $fieldContainer->getField()->getCategory() === $category);
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Reno\Cms\Events;
+namespace Reno\Cms\Events\Resources;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -23,7 +23,8 @@ use Reno\Cms\Interfaces\Layouts\ResourceLayoutInterface;
  */
 class ResourceLayoutsRegistering
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     /**
      * @var array<ResourceLayoutInterface>

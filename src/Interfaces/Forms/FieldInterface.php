@@ -8,6 +8,10 @@ interface FieldInterface extends FormElementInterface
 {
     public function getKey(): string;
 
+    public function category(string $category): static;
+
+    public function getCategory(): ?string;
+
     public function getFieldType(): FieldTypeInterface;
 
     public function getConfiguration(): array;
