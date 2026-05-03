@@ -1,6 +1,6 @@
 <?php
 
-namespace Reno\Cms\Catalogs\Columns;
+namespace Reno\Cms\Columns;
 
 use Reno\Cms\Interfaces\Resources\ResourceInterface;
 use Reno\Cms\Models\Media;

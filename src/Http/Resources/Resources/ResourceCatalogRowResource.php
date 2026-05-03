@@ -4,9 +4,9 @@ namespace Reno\Cms\Http\Resources\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Reno\Cms\Catalogs\Columns\AbstractColumn;
-use Reno\Cms\Catalogs\Columns\ImageColumn;
-use Reno\Cms\Catalogs\Columns\TextColumn;
+use Reno\Cms\Columns\AbstractColumn;
+use Reno\Cms\Columns\ImageColumn;
+use Reno\Cms\Columns\TextColumn;
 use Reno\Cms\Containers\ResourceLayoutContainer;
 use Reno\Cms\Http\Resources\Media\MediaResource;
 use Reno\Cms\Interfaces\Repositories\ResourceLayoutRepositoryInterface;

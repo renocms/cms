@@ -4,7 +4,7 @@ namespace Reno\Cms\Http\Resources\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Reno\Cms\Catalogs\Columns\AbstractColumn;
+use Reno\Cms\Columns\AbstractColumn;
 use Reno\Cms\Containers\ResourceLayoutContainer;
 use Reno\Cms\Interfaces\Resources\ResourcesCatalogInterface;
 use Reno\Cms\Models\Resource;

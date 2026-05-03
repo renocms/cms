@@ -1,6 +1,6 @@
 <?php
 
-namespace Reno\Cms\Catalogs\Columns;
+namespace Reno\Cms\Columns;
 
 use Closure;
 use Illuminate\Database\Eloquent\Model;

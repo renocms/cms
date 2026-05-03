@@ -4,7 +4,7 @@ namespace Reno\Cms\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
-use Reno\Cms\Catalogs\Columns\AbstractColumn;
+use Reno\Cms\Columns\AbstractColumn;
 use Reno\Cms\Http\Resources\Resources\ResourceCatalogRowsCollection;
 use Reno\Cms\Http\Requests\Resources\ResourceCatalogResourcesRequest;
 use Reno\Cms\Http\Requests\Resources\ResourceCatalogShowRequest;
