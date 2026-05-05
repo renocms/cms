@@ -4,6 +4,7 @@ namespace Reno\Cms\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Reno\Cms\Events\ContextResolved;
 use Reno\Cms\Interfaces\Contexts\ContextResolverInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,6 +19,8 @@ class ContextMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $contextContainer = $this->contextResolver->resolve($request);
+
+        event(new ContextResolved($contextContainer));
 
         $contextContainer->getContext()->modifyRequest($request);
 

@@ -11,6 +11,7 @@ use Reno\Cms\Interfaces\Contexts\ContextResolverInterface;
 use Reno\Cms\Interfaces\Repositories\ResourceRepositoryInterface;
 use Reno\Cms\Interfaces\Repositories\ResourceLayoutRepositoryInterface;
 use Reno\Cms\Interfaces\Services\ResourceResolverInterface;
+use Reno\Cms\Models\CmsUser;
 use Reno\Cms\Models\Resource;
 
 class ShowTreeResourceAction
@@ -84,6 +85,9 @@ class ShowTreeResourceAction
             return false;
         }
 
-        return $user->roles()->exists();
+        return CmsUser::query()
+            ->whereKey($user->getAuthIdentifier())
+            ->whereHas('roles')
+            ->exists();
     }
 }

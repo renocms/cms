@@ -2,28 +2,28 @@
 
 namespace Reno\Cms\Services\Users;
 
-use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Reno\Cms\DTO\Users\UserForCreate;
 use Reno\Cms\DTO\Users\UserForEdit;
 use Reno\Cms\Interfaces\Services\UserServiceInterface;
+use Reno\Cms\Models\CmsUser;
 
 class UserService implements UserServiceInterface
 {
     public function getAll(): Collection
     {
-        return User::with('roles')->get();
+        return CmsUser::with('roles')->get();
     }
 
-    public function findById(int $id): ?User
+    public function findById(int $id): ?CmsUser
     {
-        return User::with('roles')->find($id);
+        return CmsUser::with('roles')->find($id);
     }
 
-    public function create(UserForCreate $dto): User
+    public function create(UserForCreate $dto): CmsUser
     {
-        $user = User::create([
+        $user = CmsUser::create([
             'name' => $dto->name,
             'email' => $dto->email,
             'password' => Hash::make($dto->password),
@@ -38,9 +38,9 @@ class UserService implements UserServiceInterface
         return $user;
     }
 
-    public function update(int $id, UserForEdit $dto): User
+    public function update(int $id, UserForEdit $dto): CmsUser
     {
-        $user = User::findOrFail($id);
+        $user = CmsUser::findOrFail($id);
 
         $data = [
             'name' => $dto->name,
@@ -62,7 +62,7 @@ class UserService implements UserServiceInterface
 
     public function delete(int $id): bool
     {
-        $user = User::findOrFail($id);
+        $user = CmsUser::findOrFail($id);
         return $user->delete();
     }
 }

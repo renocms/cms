@@ -43,6 +43,7 @@ class InstallCms extends Command
         ['slug' => 'roles.manage', 'group' => 'users'],
         ['slug' => 'permissions.view', 'group' => 'users'],
         ['slug' => 'permissions.manage', 'group' => 'users'],
+        ['slug' => 'admin.view', 'group' => 'settings'],
         ['slug' => 'settings.manage', 'group' => 'settings'],
         ['slug' => 'media.view', 'group' => 'media'],
         ['slug' => 'media.create', 'group' => 'media'],

@@ -15,7 +15,7 @@ use Reno\Cms\Helpers\TablePrefixHelper;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Reno\Cms\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Reno\Cms\Models\CmsUser> $users
  * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Role newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Role newQuery()
@@ -49,7 +49,7 @@ class Role extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(
-            \App\Models\User::class,
+            CmsUser::class,
             TablePrefixHelper::table('user_role'),
             'role_id',
             'user_id'
