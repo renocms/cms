@@ -3,7 +3,9 @@
 namespace Reno\Cms\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
+use Reno\Cms\Events\JsTranslationFilesRegistering;
 
 class GenerateTranslations extends Command
 {
@@ -50,12 +52,10 @@ class GenerateTranslations extends Command
             return 1;
         }
 
-        // Определяем путь для JS файлов
-        $jsPath = str_replace('/lang', '/js/i18n', $langPath);
+        $runtimeJsPath = $this->getRuntimeTranslationsPath($langPath);
 
-        // Создаем директорию для JS переводов, если её нет
-        if (!File::exists($jsPath)) {
-            File::makeDirectory($jsPath, 0755, true);
+        if (!File::exists($runtimeJsPath)) {
+            File::makeDirectory($runtimeJsPath, 0755, true);
         }
 
         // Получаем список языков из PHP файлов
@@ -81,7 +81,7 @@ class GenerateTranslations extends Command
         // Генерируем JS файлы для каждого языка
         foreach ($locales as $locale) {
             $phpFile = $langPath . '/' . $locale . '/cms.php';
-            $jsFile = $jsPath . '/' . $locale . '.js';
+            $runtimeJsFile = $runtimeJsPath . '/' . $locale . '.js';
 
             if (!File::exists($phpFile)) {
                 $this->warn("PHP file not found: {$phpFile}");
@@ -95,11 +95,13 @@ class GenerateTranslations extends Command
                 continue;
             }
 
-            $jsContent = $this->generateJsFile($translations);
+            $translations = $this->mergePackageTranslations($translations, $locale);
 
-            File::put($jsFile, $jsContent);
+            $runtimeJsContent = $this->generateRuntimeJsFile($translations);
 
-            $this->info("Generated: {$jsFile}");
+            File::put($runtimeJsFile, $runtimeJsContent);
+
+            $this->info("Generated: {$runtimeJsFile}");
         }
 
         $this->info('Translation files generated successfully!');
@@ -107,86 +109,57 @@ class GenerateTranslations extends Command
     }
 
     /**
-     * Generate JavaScript file content from PHP translations array
-     *
-     * @param array $translations
-     * @return string
+     * @param array<string, mixed> $translations
+     * @return array<string, mixed>
      */
-    private function generateJsFile(array $translations): string
+    private function mergePackageTranslations(array $translations, string $locale): array
     {
-        $content = "export default {\n";
-        $content .= $this->arrayToJs($translations, 1);
-        $content .= "};\n";
+        foreach ($this->getAdditionalTranslationFiles($locale) as $additionalTranslationFile) {
+            $additionalTranslations = require $additionalTranslationFile;
+            if (!is_array($additionalTranslations)) {
+                $this->warn("Invalid translations in {$additionalTranslationFile}");
+                continue;
+            }
 
-        return $content;
+            $translations = array_merge($translations, $additionalTranslations);
+        }
+
+        return $translations;
     }
 
     /**
-     * Convert PHP array to JavaScript object string
-     *
-     * @param array $array
-     * @param int $indent
-     * @return string
+     * @return array<int, string>
      */
-    private function arrayToJs(array $array, int $indent = 0): string
+    private function getAdditionalTranslationFiles(string $locale): array
     {
-        $spaces = str_repeat('    ', $indent);
-        $lines = [];
+        $event = new JsTranslationFilesRegistering($locale);
+        Event::dispatch($event);
 
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $lines[] = $spaces . $this->escapeKey($key) . ': {';
-                $lines[] = $this->arrayToJs($value, $indent + 1);
-                $lines[] = $spaces . '},';
-            } else {
-                $lines[] = $spaces . $this->escapeKey($key) . ': ' . $this->escapeValue($value) . ',';
+        $result = [];
+        foreach ($event->getFiles() as $file) {
+            if (File::exists($file)) {
+                $result[] = $file;
             }
         }
 
-        return implode("\n", $lines);
+        return array_values(array_unique($result));
     }
 
     /**
-     * Escape JavaScript key
-     *
-     * @param string $key
-     * @return string
+     * @param array<string, mixed> $translations
      */
-    private function escapeKey(string $key): string
+    private function generateRuntimeJsFile(array $translations): string
     {
-        // Если ключ содержит специальные символы, используем кавычки
-        if (preg_match('/^[a-zA-Z_$][a-zA-Z0-9_$]*$/', $key)) {
-            return $key;
+        $json = json_encode($translations, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if ($json === false) {
+            $json = '{}';
         }
 
-        return json_encode($key, JSON_UNESCAPED_UNICODE);
+        return "window.CMS_TRANSLATIONS = {$json};\n";
     }
 
-    /**
-     * Escape JavaScript value
-     *
-     * @param mixed $value
-     * @return string
-     */
-    private function escapeValue($value): string
+    private function getRuntimeTranslationsPath(string $langPath): string
     {
-        if (is_string($value)) {
-            return json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        }
-
-        if (is_bool($value)) {
-            return $value ? 'true' : 'false';
-        }
-
-        if (is_null($value)) {
-            return 'null';
-        }
-
-        if (is_numeric($value)) {
-            return (string) $value;
-        }
-
-        return json_encode($value, JSON_UNESCAPED_UNICODE);
+        return str_replace('/lang', '/js/i18n-runtime', $langPath);
     }
 }
-

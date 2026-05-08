@@ -1,10 +1,10 @@
-import ru from './ru.js';
-import en from './en.js';
+function getTranslations() {
+    if (window.CMS_TRANSLATIONS && typeof window.CMS_TRANSLATIONS === 'object') {
+        return window.CMS_TRANSLATIONS;
+    }
 
-const translations = {
-    ru,
-    en,
-};
+    return {};
+}
 
 // Получить текущий язык из конфига или localStorage
 function getCurrentLanguage() {
@@ -12,49 +12,42 @@ function getCurrentLanguage() {
     if (window.CMS_CONFIG?.locale) {
         return window.CMS_CONFIG.locale;
     }
-    
+
     const saved = localStorage.getItem('cms_locale');
-    if (saved && translations[saved]) {
+    if (saved) {
         return saved;
     }
-    
+
     // По умолчанию английский
     return 'en';
 }
 
 // Установить язык
 export function setLocale(locale) {
-    if (translations[locale]) {
-        localStorage.setItem('cms_locale', locale);
-        return true;
+    if (typeof locale !== 'string' || !locale.trim()) {
+        return false;
     }
-    return false;
+
+    localStorage.setItem('cms_locale', locale);
+    return true;
 }
 
 // Получить перевод
 export function t(key, params = {}) {
-    const locale = getCurrentLanguage();
-    const translation = translations[locale];
-    
-    if (!translation) {
-        console.warn(`Translation not found for locale: ${locale}`);
-        return key;
-    }
-    
-    let text = translation[key];
-    
+    const translations = getTranslations();
+    let text = translations[key];
+
     if (text === undefined) {
-        // Fallback на английский, если ключ не найден
-        text = translations.en[key] || key;
+        text = key;
     }
-    
+
     // Замена параметров в тексте
     if (params && typeof text === 'string') {
-        Object.keys(params).forEach(param => {
+        Object.keys(params).forEach((param) => {
             text = text.replace(new RegExp(`:${param}`, 'g'), params[param]);
         });
     }
-    
+
     return text;
 }
 

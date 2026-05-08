@@ -63,6 +63,7 @@ class RenoServiceProvider extends ServiceProvider
         // Публикация собранных ассетов админки
         $this->publishes([
             __DIR__ . '/../public/build' => public_path('vendor/reno/cms/build'),
+            __DIR__ . '/../resources/js/i18n-runtime' => public_path('vendor/reno/cms/build/i18n'),
             __DIR__ . '/../resources/css/vendor/quill/quill.snow.css' => public_path('vendor/reno/cms/quill/quill.snow.css'),
             __DIR__ . '/../resources/js/vendor/quill/quill.js' => public_path('vendor/reno/cms/quill/quill.js'),
         ], 'cms-assets');

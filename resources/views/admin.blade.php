@@ -16,10 +16,13 @@
     @php
         $adminScriptUrl = getCmsBuildAssetUrl('admin.js') ?? asset('vendor/reno/cms/build/admin.js');
         $adminCssUrls = getCmsBuildCssUrls('admin.js');
+        $translationsScriptUrl = asset('vendor/reno/cms/build/i18n/' . $locale . '.js');
+        $fallbackTranslationsScriptUrl = asset('vendor/reno/cms/build/i18n/en.js');
     @endphp
     @foreach ($adminCssUrls as $adminCssUrl)
         <link rel="stylesheet" href="{{ $adminCssUrl }}">
     @endforeach
+    <script src="{{ $translationsScriptUrl }}" onerror="this.onerror=null;this.src='{{ $fallbackTranslationsScriptUrl }}';"></script>
     <script type="module" src="{{ $adminScriptUrl }}"></script>
 </head>
 <body>
