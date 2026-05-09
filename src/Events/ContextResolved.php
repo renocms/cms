@@ -6,7 +6,7 @@ use Reno\Cms\Containers\ContextContainer;
 use Illuminate\Foundation\Events\Dispatchable;
 use Reno\Cms\Interfaces\Events\FlushesCmsCache;
 
-class ContextResolved implements FlushesCmsCache
+class ContextResolved
 {
     use Dispatchable;
 
