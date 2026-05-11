@@ -11,6 +11,7 @@
         window.CMS_CONFIG = {
             adminPrefix: '{{ config('cms.admin_prefix', 'admin') }}',
             locale: '{{ $locale }}',
+            appUrl: '{{ config('app.url', url('/')) }}',
         };
     </script>
     @php

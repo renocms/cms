@@ -21,6 +21,7 @@ class DashboardBlockResource extends JsonResource
         return [
             'js_module' => $block->getJsModule(),
             'data' => $block->getData(),
+            'is_full_width' => $block->isFullWidth(),
         ];
     }
 }

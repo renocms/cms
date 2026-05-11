@@ -45,10 +45,6 @@
                 @move-request="handleMoveRequest"
             />
         </div>
-        
-        <!-- Индикатор загрузки -->
-        <LoadingOverlay :show="loading" />
-
         <MoveResourceConfirmModal
             :show="showMoveConfirmModal"
             :source-title="moveModalSourceTitle"
@@ -64,7 +60,6 @@
 import { getResourcesTree, getContexts, getAdminPrefix } from '../../api';
 import { moveResource } from '../../api/resources';
 import ResourceTreeNode from './ResourceTreeNode.vue';
-import LoadingOverlay from '../common/LoadingOverlay.vue';
 import MoveResourceConfirmModal from './MoveResourceConfirmModal.vue';
 import Icon from '../common/Icon.vue';
 
@@ -72,7 +67,6 @@ export default {
     name: 'ResourceTree',
     components: {
         ResourceTreeNode,
-        LoadingOverlay,
         MoveResourceConfirmModal,
         Icon,
     },

@@ -93,8 +93,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-/* Стили вынесены в компонент LoadingOverlay */
-</style>
-

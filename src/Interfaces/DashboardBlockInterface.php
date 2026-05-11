@@ -27,5 +27,13 @@ interface DashboardBlockInterface
      * @return int
      */
     public function getSortOrder(): int;
+
+    /**
+     * Определяет ширину блока в сетке.
+     * true - блок на всю ширину, false - половина ширины.
+     *
+     * @return bool
+     */
+    public function isFullWidth(): bool;
 }
 

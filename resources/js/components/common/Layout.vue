@@ -4,6 +4,11 @@
         <SuccessNotification :message="successMessage" @close="successMessage = null" />
         <header class="header">
             <div class="header-content">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+                        <path d="M6.83 0a1 1 0 0 0-.65.25L3.47 3.02a.85.85 0 0 0 0 1.1l2.71 2.76q.83.84 1.64 0l2.71-2.76a.85.85 0 0 0 0-1.1L7.82.25C7.68.11 7.24-.02 6.83 0m-5 4.67S.48 6.06.2 6.33a.85.85 0 0 0 0 1.1l6.26 6.36c.27.28.81.28 1.08 0l6.26-6.35a.85.85 0 0 0 0-1.1l-1.63-1.67a.8.8 0 0 0-1.1 0L8.1 7.71c-.55.56-1.63.56-2.18 0L2.92 4.67a.8.8 0 0 0-1.09 0"/>
+                    </svg>
+                </div>
                 <nav class="header-nav">
                     <router-link :to="`/${adminPrefix}`" class="nav-link">
                         {{ $t('dashboard') }}
@@ -43,26 +48,36 @@
                             <Icon name="chevron-down" :size="16" />
                         </button>
                         <div v-if="cacheDropdownOpen" class="dropdown-menu dropdown-menu-end">
-                            <button
-                                type="button"
-                                class="dropdown-item"
-                                :disabled="cacheLoading"
-                                @click="handleFlushCms"
-                            >
+                            <div class="dropdown-item" @click="handleFlushCms">
                                 {{ $t('flush_cms_cache') }}
-                            </button>
-                            <button
-                                type="button"
-                                class="dropdown-item"
-                                :disabled="cacheLoading"
-                                @click="handleFlushFull"
-                            >
+                            </div>
+                            <div class="dropdown-item" @click="handleFlushFull">
                                 {{ $t('flush_full_cache') }}
-                            </button>
+                            </div>
                         </div>
                     </div>
-                    <span class="user-name">{{ user?.name || $t('user') }}</span>
-                    <button @click="handleLogout" class="logout-btn">{{ $t('logout') }}</button>
+
+                    <div class="user-card" v-if="user">
+                        <Icon name="circle-user-round" />
+                        <div class="user-name">
+                            <div class="name">{{ user.name }}</div>
+                            <div class="email">{{ user.email }}</div>
+                        </div>
+                    </div>
+
+                    <a
+                        :href="appUrl"
+                        class="site-link-btn"
+                        :title="$t('view_site')"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <Icon name="eye" :size="20" />
+                    </a>
+
+                    <button @click="handleLogout" class="logout-btn" :title="$t('logout')">
+                        <Icon name="log-out" :size="16"/>
+                    </button>
                 </div>
             </div>
         </header>
@@ -78,7 +93,7 @@
 </template>
 
 <script>
-import { getCurrentUser, logout, getAdminPrefix, flushCmsCache, flushFullCache } from '../../api';
+import { getCurrentUser, logout, getAdminPrefix, getAppUrl, flushCmsCache, flushFullCache } from '../../api';
 import { loadMenuItems } from '../../utils/menuLoader';
 import { authStore } from '../../store/auth';
 import ResourceTree from '../resources/ResourceTree.vue';
@@ -98,6 +113,7 @@ export default {
         return {
             user: null,
             adminPrefix: getAdminPrefix(),
+            appUrl: getAppUrl(),
             activeDropdown: null,
             menuItems: [],
             cacheDropdownOpen: false,
@@ -213,9 +229,18 @@ export default {
     margin: 0;
     padding: 0 1.5rem 0 1rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     height: 60px;
+}
+
+.logo {
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-right: 1rem;
+}
+
+.logo svg path {
+    fill: #ffffff5c;
 }
 
 .header-nav {
@@ -262,7 +287,9 @@ export default {
     display: block;
     padding: 0.75rem 1rem;
     color: #333;
+    font-size: 0.875rem;
     text-decoration: none;
+    cursor: pointer;
     transition: background-color 0.2s;
 }
 
@@ -277,20 +304,6 @@ export default {
 
 .cache-menu-btn {
     cursor: pointer;
-}
-
-button.dropdown-item {
-    width: 100%;
-    border: none;
-    background: white;
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
-}
-
-button.dropdown-item:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
 }
 
 .nav-link {
@@ -310,26 +323,65 @@ button.dropdown-item:disabled {
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-left: auto;
 }
 
-.user-name {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.9);
+.user-card {
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+}
+
+.user-card .email {
+    font-size: 0.625rem;
+    opacity: 0.7;
 }
 
 .logout-btn {
-    padding: 0.5rem 1rem;
+    width: 2rem;
+    height: 2rem;
     background: #e74c3c;
-    color: white;
+    color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.375rem;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.2s;
+    font-size: .9rem;
+    transition: background-color .2s;
 }
 
 .logout-btn:hover {
     background: #c0392b;
+}
+
+.logout-btn svg {
+    display: block;
+    margin: 0 auto;
+}
+
+.site-link-btn {
+    width: 2rem;
+    height: 2rem;
+    background: #556d85;
+    color: #fff;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: .9rem;
+    transition: background-color .2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.site-link-btn:hover {
+    background: #6b849d;
+}
+
+.site-link-btn svg {
+    display: block;
+    margin: 0 auto;
 }
 
 .layout-body {
@@ -351,6 +403,7 @@ button.dropdown-item:disabled {
 .main-content {
     flex: 1;
     background: #f5f5f5;
+    position: relative;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0;

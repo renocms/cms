@@ -3,8 +3,8 @@
     "file": "chunks/_plugin-vue_export-helper-DlAUqK2U.js",
     "name": "_plugin-vue_export-helper"
   },
-  "_index-Bd404Ouv.js": {
-    "file": "chunks/index-Bd404Ouv.js",
+  "_index-D_6OdtCj.js": {
+    "file": "chunks/index-D_6OdtCj.js",
     "name": "index",
     "isDynamicEntry": true,
     "imports": [
@@ -36,7 +36,7 @@
       "_vendor-vue-DzUbJ0Ha.js",
       "_vendor-2MHWl70e.js",
       "resources/js/api/http.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/utils/lastAdminUrl.js",
       "resources/js/utils/eventBus.js",
       "resources/js/utils/routeLoader.js",
@@ -54,7 +54,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -65,7 +65,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -76,7 +76,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -87,7 +87,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -107,7 +107,7 @@
     "src": "resources/js/api/index.js",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-2MHWl70e.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
@@ -119,7 +119,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -130,7 +130,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -141,7 +141,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -152,7 +152,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -163,7 +163,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -174,7 +174,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -185,7 +185,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -195,7 +195,7 @@
     "src": "resources/js/api/routes.js",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-2MHWl70e.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
@@ -207,7 +207,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -218,7 +218,7 @@
     "isEntry": true,
     "imports": [
       "_vendor-2MHWl70e.js",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]
   },
@@ -238,7 +238,7 @@
     "src": "resources/js/components/common/Dashboard.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/utils/componentLoader.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_vendor-vue-DzUbJ0Ha.js",
@@ -274,7 +274,7 @@
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/utils/menuLoader.js",
       "resources/js/components/resources/ResourceTree.vue",
       "resources/js/components/common/Icon.vue",
@@ -286,7 +286,6 @@
       "resources/js/api/http.js",
       "resources/js/components/resources/ResourceTreeNode.vue",
       "resources/js/components/resources/LayoutSelectionModal.vue",
-      "resources/js/components/common/LoadingOverlay.vue",
       "resources/js/components/resources/MoveResourceConfirmModal.vue",
       "resources/js/shared/icons.js",
       "_preload-helper-CmxCvFIw.js"
@@ -308,7 +307,7 @@
     "src": "resources/js/components/common/Login.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/utils/lastAdminUrl.js",
       "resources/js/components/common/ErrorNotification.vue",
       "_vendor-vue-DzUbJ0Ha.js",
@@ -345,7 +344,7 @@
     "src": "resources/js/components/media/MediaPicker.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_vendor-2MHWl70e.js"
@@ -357,7 +356,7 @@
     "src": "resources/js/components/permissions/Permissions.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/components/common/ErrorNotification.vue",
       "resources/js/components/common/LoadingOverlay.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -371,7 +370,7 @@
     "src": "resources/js/components/resources/LayoutSelectionModal.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-vue-DzUbJ0Ha.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_vendor-2MHWl70e.js"
@@ -393,7 +392,7 @@
     "src": "resources/js/components/resources/ResourceCatalog.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/components/resources/LayoutSelectionModal.vue",
       "resources/js/components/common/LoadingOverlay.vue",
       "resources/js/components/common/ErrorNotification.vue",
@@ -412,7 +411,7 @@
     "src": "resources/js/components/resources/ResourceEdit.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/utils/componentLoader.js",
       "resources/js/utils/fieldEditor.js",
       "resources/js/utils/fieldSchema.js",
@@ -433,7 +432,7 @@
     "imports": [
       "_preload-helper-CmxCvFIw.js",
       "resources/js/components/resources/ResourceEdit.vue",
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/utils/componentLoader.js",
       "resources/js/components/common/LoadingOverlay.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -455,9 +454,8 @@
     "src": "resources/js/components/resources/ResourceTree.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/components/resources/ResourceTreeNode.vue",
-      "resources/js/components/common/LoadingOverlay.vue",
       "resources/js/components/resources/MoveResourceConfirmModal.vue",
       "resources/js/components/common/Icon.vue",
       "_vendor-vue-DzUbJ0Ha.js",
@@ -474,7 +472,7 @@
     "src": "resources/js/components/resources/ResourceTreeNode.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/components/resources/LayoutSelectionModal.vue",
       "resources/js/components/common/Icon.vue",
       "_vendor-vue-DzUbJ0Ha.js",
@@ -490,7 +488,7 @@
     "src": "resources/js/components/roles/RoleEdit.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/components/common/ErrorNotification.vue",
       "resources/js/components/common/SuccessNotification.vue",
       "resources/js/components/common/LoadingOverlay.vue",
@@ -505,7 +503,7 @@
     "src": "resources/js/components/roles/Roles.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/components/common/ErrorNotification.vue",
       "resources/js/components/common/SuccessNotification.vue",
       "resources/js/components/common/LoadingOverlay.vue",
@@ -523,7 +521,7 @@
     "src": "resources/js/components/settings/Settings.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/components/common/ErrorNotification.vue",
       "resources/js/components/common/SuccessNotification.vue",
       "resources/js/components/common/LoadingOverlay.vue",
@@ -541,7 +539,7 @@
     "src": "resources/js/components/users/UserEdit.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/components/common/ErrorNotification.vue",
       "resources/js/components/common/SuccessNotification.vue",
       "resources/js/components/common/LoadingOverlay.vue",
@@ -556,7 +554,7 @@
     "src": "resources/js/components/users/Users.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/components/common/ErrorNotification.vue",
       "resources/js/components/common/SuccessNotification.vue",
       "resources/js/components/common/LoadingOverlay.vue",
@@ -568,24 +566,40 @@
       "_preload-helper-CmxCvFIw.js"
     ]
   },
-  "resources/js/custom-components/dashboard/ResourcesCount.vue": {
-    "file": "custom-components/dashboard/ResourcesCount.js",
-    "name": "custom-components/dashboard/ResourcesCount",
-    "src": "resources/js/custom-components/dashboard/ResourcesCount.vue",
+  "resources/js/custom-components/dashboard/NewUsers.vue": {
+    "file": "custom-components/dashboard/NewUsers.js",
+    "name": "custom-components/dashboard/NewUsers",
+    "src": "resources/js/custom-components/dashboard/NewUsers.vue",
     "isEntry": true,
     "imports": [
+      "_index-D_6OdtCj.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
-      "_vendor-vue-DzUbJ0Ha.js"
+      "_vendor-vue-DzUbJ0Ha.js",
+      "_vendor-2MHWl70e.js"
     ]
   },
-  "resources/js/custom-components/dashboard/UsersCount.vue": {
-    "file": "custom-components/dashboard/UsersCount.js",
-    "name": "custom-components/dashboard/UsersCount",
-    "src": "resources/js/custom-components/dashboard/UsersCount.vue",
+  "resources/js/custom-components/dashboard/RecentResourceChanges.vue": {
+    "file": "custom-components/dashboard/RecentResourceChanges.js",
+    "name": "custom-components/dashboard/RecentResourceChanges",
+    "src": "resources/js/custom-components/dashboard/RecentResourceChanges.vue",
     "isEntry": true,
     "imports": [
+      "_index-D_6OdtCj.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
-      "_vendor-vue-DzUbJ0Ha.js"
+      "_vendor-vue-DzUbJ0Ha.js",
+      "_vendor-2MHWl70e.js"
+    ]
+  },
+  "resources/js/custom-components/dashboard/Welcome.vue": {
+    "file": "custom-components/dashboard/Welcome.js",
+    "name": "custom-components/dashboard/Welcome",
+    "src": "resources/js/custom-components/dashboard/Welcome.vue",
+    "isEntry": true,
+    "imports": [
+      "_index-D_6OdtCj.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_vendor-vue-DzUbJ0Ha.js",
+      "_vendor-2MHWl70e.js"
     ]
   },
   "resources/js/custom-components/field-types/BooleanField.vue": {
@@ -654,7 +668,7 @@
     "src": "resources/js/custom-components/field-types/MediaEditor.vue",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "resources/js/components/media/MediaPicker.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_vendor-vue-DzUbJ0Ha.js",
@@ -2514,7 +2528,7 @@
     "src": "resources/js/utils/lastAdminUrl.js",
     "isEntry": true,
     "imports": [
-      "_index-Bd404Ouv.js",
+      "_index-D_6OdtCj.js",
       "_vendor-2MHWl70e.js",
       "_vendor-vue-DzUbJ0Ha.js"
     ]

@@ -1,13 +1,17 @@
 <template>
-    <div class="dashboard">
-        <h1>{{ $t('dashboard') }}</h1>
-        <div class="stats">
-            <component
+    <div class="admin-page dashboard">
+        <div class="blocks">
+            <div
                 v-for="(block, index) in blocks"
-                :key="index"
-                :is="getBlockComponent(block.js_module)"
-                :data="block.data"
-            />
+                :key="`${block.js_module}-${index}`"
+                class="blocks-item"
+                :class="block.is_full_width ? 'blocks-item--full' : 'blocks-item--half'"
+            >
+                <component
+                    :is="getBlockComponent(block.js_module)"
+                    :data="block.data"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -49,37 +53,32 @@ export default {
 
 <style scoped>
 .dashboard {
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
-h1 {
-    margin-bottom: 2rem;
-}
-
-.stats {
+.blocks {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem;
 }
 
-.stat-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.blocks-item--full {
+    grid-column: 1 / -1;
 }
 
-.stat-card h3 {
-    margin: 0 0 0.5rem 0;
-    color: #666;
-    font-size: 0.9rem;
+.blocks-item--half {
+    grid-column: span 1;
 }
 
-.stat-card p {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
+@media (max-width: 992px) {
+    .blocks {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .blocks-item--full,
+    .blocks-item--half {
+        grid-column: span 1;
+    }
 }
 </style>
 

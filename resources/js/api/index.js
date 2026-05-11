@@ -6,6 +6,13 @@ export function getAdminPrefix() {
 }
 
 /**
+ * Получение URL сайта из Laravel-конфига
+ */
+export function getAppUrl() {
+    return window.CMS_CONFIG?.appUrl || '/';
+}
+
+/**
  * Получение префикса API
  */
 export function getApiPrefix() {

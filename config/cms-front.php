@@ -2,8 +2,9 @@
 
 return [
     'dashboard_blocks' => [
-        \Reno\Cms\Blocks\Dashboard\ResourcesCountBlock::class,
-        \Reno\Cms\Blocks\Dashboard\UsersCountBlock::class,
+        \Reno\Cms\Dashboard\WelcomeBlock::class,
+        \Reno\Cms\Dashboard\RecentResourceChangesBlock::class,
+        \Reno\Cms\Dashboard\NewUsersBlock::class,
     ],
     'javascript_plugins' => [
         'resource_edit' => [
